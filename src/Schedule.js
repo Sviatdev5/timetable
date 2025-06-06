@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Schedule.css"; 
+import "./Schedule.css";
 import { useNavigate } from "react-router-dom";
 
 const weeklySchedule = {
@@ -31,13 +31,7 @@ const weeklySchedule = {
           teacher: "Зербіно Д.Д.",
           type: "Лабораторна",
           room: "802а V н.к.",
-        },
-        {
-          title: "Системний аналіз",
-          teacher: "Дубук В.І.",
-          type: "Лабораторна",
-          room: "803 V н.к.",
-        },
+        }
       ],
     },
     {
@@ -70,7 +64,25 @@ const Schedule = () => {
   const [selectedDay, setSelectedDay] = useState("Понеділок");
   const [searchTerm, setSearchTerm] = useState("");
   const [week, setWeek] = useState("Цей тиждень");
+  const [editingIndex, setEditingIndex] = useState(null);
+  const [editValues, setEditValues] = useState({});
   const navigate = useNavigate();
+
+  const startEditing = (pairIndex, subjectIndex, subject) => {
+    setEditingIndex(`${pairIndex}-${subjectIndex}`);
+    setEditValues(subject);
+  };
+
+  const cancelEditing = () => {
+    setEditingIndex(null);
+    setEditValues({});
+  };
+
+  const saveEditing = (pairIndex, subjectIndex) => {
+    weeklySchedule[selectedDay][pairIndex].subjects[subjectIndex] = editValues;
+    setEditingIndex(null);
+    setEditValues({});
+  };
 
   const filteredLessons = weeklySchedule[selectedDay].filter((lesson) =>
     lesson.subjects.some((subj) =>
@@ -83,31 +95,15 @@ const Schedule = () => {
       <header className="app-header">
         <h1>📅 Мій розклад</h1>
         <div className="header-controls">
-           <button className="search" onClick={() => navigate("/search")}>🔍 Пошук пар</button>
-
-          <button className="week-toggle" onClick={() => {
-            setWeek(week === "Цей тиждень" ? "Наступний тиждень" : "Цей тиждень");
-          }}>
-            {week}
-          </button>
-
-          <button className="login-button" onClick={() => alert("Тут буде вхід 🙂")}>
-            🔐 Вхід
-          </button>
+          <button className="search" onClick={() => navigate("/search")}>🔍 Пошук пар</button>
+          <button className="week-toggle" onClick={() => setWeek(week === "Цей тиждень" ? "Наступний тиждень" : "Цей тиждень")}>{week}</button>
+          <button className="login-button" onClick={() => alert("Тут буде вхід 🙂")}>🔐 Вхід</button>
         </div>
       </header>
 
-      
-
       <div className="day-switcher">
         {Object.keys(weeklySchedule).map((day) => (
-          <button
-            key={day}
-            onClick={() => setSelectedDay(day)}
-            className={selectedDay === day ? "active-day" : ""}
-          >
-            {day}
-          </button>
+          <button key={day} onClick={() => setSelectedDay(day)} className={selectedDay === day ? "active-day" : ""}>{day}</button>
         ))}
       </div>
 
@@ -121,19 +117,33 @@ const Schedule = () => {
               <span>{lesson.time}</span>
             </div>
             <div className="subjects">
-              {lesson.subjects.map((subj, i) => (
-                <div key={i} className="subject-card">
-                  <div className="subject-title">{subj.title}</div>
-                  <div className="subject-info">{subj.teacher}</div>
-                  <div className="subject-info">{subj.type}</div>
-                  <div className="subject-room">{subj.room}</div>
-                  {subj.online && (
-                    <a href="#" className="online-link">
-                      URL онлайн заняття
-                    </a>
-                  )}
-                </div>
-              ))}
+              {lesson.subjects.map((subj, i) => {
+                const isEditing = editingIndex === `${index}-${i}`;
+                return (
+                  <div key={i} className="subject-card">
+                    {isEditing ? (
+                      <>
+                        <input type="text" value={editValues.title} onChange={(e) => setEditValues({ ...editValues, title: e.target.value })} />
+                        <input type="text" value={editValues.teacher} onChange={(e) => setEditValues({ ...editValues, teacher: e.target.value })} />
+                        <input type="text" value={editValues.type} onChange={(e) => setEditValues({ ...editValues, type: e.target.value })} />
+                        <input type="text" value={editValues.room} onChange={(e) => setEditValues({ ...editValues, room: e.target.value })} />
+                        <div className="edit-buttons">
+                          <button onClick={() => saveEditing(index, i)}>💾</button>
+                          <button onClick={cancelEditing}>❌</button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="subject-title">{subj.title} <button onClick={() => startEditing(index, i, subj)} className="edit-btn">✏️</button></div>
+                        <div className="subject-info">{subj.teacher}</div>
+                        <div className="subject-info">{subj.type}</div>
+                        <div className="subject-room">{subj.room}</div>
+                        {subj.online && <a href="#" className="online-link">URL онлайн заняття</a>}
+                      </>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         ))
@@ -143,4 +153,5 @@ const Schedule = () => {
 };
 
 export default Schedule;
+
 

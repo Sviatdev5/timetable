@@ -1,0 +1,109 @@
+.sidebar {
+  background: linear-gradient(to bottom right, #2193b0, #6dd5ed);
+  color: white;
+  padding: 1rem;
+  transition: width 0.3s ease;
+  overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+.sidebar.collapsed {
+  width: 50px;
+}
+
+.toggle-button {
+  position: absolute;
+  top: 20px;
+  right: -15px;
+  transform: translateX(100%);
+  background: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, background 0.3s ease;
+  z-index: 10;
+}
+
+.toggle-button:hover {
+  background: #e0f7ff;
+  transform: translateX(100%) scale(1.05);
+}
+
+
+.sidebar-content {
+  margin-top: 40px;
+}
+
+.group-input {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+}
+
+.group-input input {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+}
+
+.group-input .add-btn {
+  background: white;
+  color: #2193b0;
+  border: none;
+  padding: 0 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.group-input .add-btn:hover {
+  background: #e0f7ff;
+}
+
+.group-list {
+  list-style: none;
+  padding: 0;
+}
+
+.group-item {
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
+
+.group-item span {
+  font-weight: 500;
+}
+
+.group-actions {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.delete-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.delete-icon:hover {
+  transform: scale(1.2);
+  color: #ff6961;
+}
+
