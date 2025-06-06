@@ -27,10 +27,13 @@ const Sidebar = () => {
   };
 
   return (
+    collapsed ?  <button className="rem-btn" onClick={() => setCollapsed(false)}>
+        {collapsed ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
+      </button> :
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-      <button className="add-btn" onClick={() => setCollapsed(!collapsed)}>
-  {collapsed ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
-</button>
+      <button className="add-btn" onClick={() => setCollapsed(true)}>
+        {collapsed ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
+      </button>
 
       {!collapsed && (
         <div className="sidebar-content">

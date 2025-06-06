@@ -2,14 +2,20 @@
   background: linear-gradient(to bottom right, #2193b0, #6dd5ed);
   color: white;
   padding: 1rem;
-  transition: width 0.3s ease;
+  transition: all 0.3s ease;
   overflow: hidden;
-  position: relative;
-  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  z-index: 1000;
+  box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+  /* width: 250px; */
 }
 
 .sidebar.collapsed {
   width: 50px;
+  box-shadow: none;
 }
 
 .toggle-button {
@@ -76,6 +82,22 @@
   font-weight: bold;
   cursor: pointer;
   transition: background 0.2s ease;
+}
+.rem-btn {
+  background: white;
+  color: #2193b0;
+  border: none;
+  padding: 0 3px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  height: fit-content;
+  margin: 1rem;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
 }
 
 .group-input .add-btn:hover {
