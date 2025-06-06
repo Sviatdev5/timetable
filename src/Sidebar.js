@@ -28,7 +28,7 @@ const Sidebar = () => {
 
   return (
     <div className={`sidebar ${collapsed ? "collapsed" : ""}`}>
-      <button className="toggle-btn" onClick={() => setCollapsed(!collapsed)}>
+      <button className="add-btn" onClick={() => setCollapsed(!collapsed)}>
   {collapsed ? <ChevronRight size={24} /> : <ChevronLeft size={24} />}
 </button>
 

@@ -97,7 +97,6 @@ const Schedule = () => {
         <div className="header-controls">
           <button className="search" onClick={() => navigate("/search")}>🔍 Пошук пар</button>
           <button className="week-toggle" onClick={() => setWeek(week === "Цей тиждень" ? "Наступний тиждень" : "Цей тиждень")}>{week}</button>
-          <button className="login-button" onClick={() => alert("Тут буде вхід 🙂")}>🔐 Вхід</button>
         </div>
       </header>
 

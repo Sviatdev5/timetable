@@ -67,6 +67,17 @@
   transition: background 0.2s ease;
 }
 
+.add-btn {
+  background: white;
+  color: #2193b0;
+  border: none;
+  padding: 0 3px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
 .group-input .add-btn:hover {
   background: #e0f7ff;
 }

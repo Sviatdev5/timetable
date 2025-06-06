@@ -1,13 +1,13 @@
 .schedule-container {
   padding: 20px;
-  background: linear-gradient(180deg, #e3f2fd, #fff9c4);
+ 
 
   min-height: 100vh;
   font-family: Arial, sans-serif;
 }
 
 .lesson-block {
- background: linear-gradient(135deg, #2196f3, #fdd835);
+     background: linear-gradient(to bottom right, #2193b0, #6dd5ed);
  color: white;
  border-radius: 10px;
  padding: 15px;
@@ -67,7 +67,7 @@
   margin-bottom: 30px;
   padding: 20px;
   border-radius: 15px;
-  background: linear-gradient(90deg, #2196f3, #fdd835);
+      background: linear-gradient(to bottom right, #2193b0, #6dd5ed);
   color: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
@@ -103,7 +103,7 @@
 }
 
 .day-switcher .active-day {
-  background: linear-gradient(90deg, #2196f3, #fdd835);
+      background: linear-gradient(to bottom right, #2193b0, #6dd5ed);
   color: white;
 }
 

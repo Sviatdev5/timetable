@@ -19,7 +19,7 @@
 .search-card {
   width: 280px;
   padding: 20px;
-  background: linear-gradient(135deg, #42a5f5, #fdd835);
+  background: linear-gradient(to bottom right, #2193b0, #6dd5ed);
   border-radius: 12px;
   color: white;
   font-size: 16px;
