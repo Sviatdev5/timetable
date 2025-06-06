@@ -24,7 +24,6 @@
 
 .subjects {
   display: flex;
-  flex-wrap: wrap;
   gap: 10px;
 }
 
@@ -32,8 +31,10 @@
   background-color: #ffffff;
   border-radius: 8px;
   padding: 10px;
-  flex: 1 1 300px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  flex: 1 1 48%;
+  min-width: 160px;
+  box-sizing: border-box;
 }
 
 .subject-title {
@@ -136,6 +137,7 @@
   font-weight: bold;
   cursor: pointer;
   transition: background 0.3s ease;
+  margin-bottom: 2%;
 }
 
 .week-toggle:hover,
@@ -189,6 +191,25 @@
   text-align: center;
 }
 
+@media (max-width: 600px) {
+  .subject-card {
+    flex: 1 1 48%;
+  }
+}
+.search-container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.search-container select,
+.search-container input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
 
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useMemo } from "react";
 import "./Schedule.css";
 import { useNavigate } from "react-router-dom";
 
@@ -186,15 +186,52 @@ const weeklySchedule = {
 };
 
 
+
 const Schedule = () => {
   const [selectedDay, setSelectedDay] = useState("Понеділок");
   const [searchTerm, setSearchTerm] = useState("");
   const [week, setWeek] = useState("Цей тиждень");
   const [editingIndex, setEditingIndex] = useState(null);
   const [editValues, setEditValues] = useState({});
-  const navigate = useNavigate();
-
+  const [searchType, setSearchType] = useState("title");
   const isNumeratorWeek = week === "Цей тиждень";
+
+  // Фільтрація у useMemo, щоб не виконувати її щоразу при рендері без змін залежностей
+  const filteredSchedule = useMemo(() => {
+    if (!searchTerm.trim()) {
+      // Якщо запит пустий — показуємо весь розклад
+      return weeklySchedule;
+    }
+
+    const query = searchTerm.toLowerCase();
+
+    const result = {};
+
+    for (const [day, lessons] of Object.entries(weeklySchedule)) {
+      const filteredLessons = lessons.filter(lesson =>
+        lesson.subjects.some(subj => {
+          if (!subj.title) return false;
+
+          const title = subj.title.toLowerCase();
+          const teacher = (subj.teacher || "").toLowerCase();
+
+          if (searchType === "title") return title.includes(query);
+          if (searchType === "teacher") return teacher.includes(query);
+          // для "both" або будь-якого іншого варіанту
+          return title.includes(query) || teacher.includes(query);
+        })
+      );
+
+      if (filteredLessons.length > 0) {
+        result[day] = filteredLessons;
+      }
+    }
+
+    return result;
+  }, [searchTerm, searchType]);
+
+  // Для рендеру уроків - беремо вже фільтрований розклад для вибраного дня
+  const lessonsForSelectedDay = filteredSchedule[selectedDay] || [];
 
   const startEditing = (pairIndex, subjectIndex, subject) => {
     setEditingIndex(`${pairIndex}-${subjectIndex}`);
@@ -212,16 +249,9 @@ const Schedule = () => {
     setEditValues({});
   };
 
-  const filteredLessons = weeklySchedule[selectedDay].filter((lesson) =>
-    lesson.subjects.some(
-      (subj) => subj.title && subj.title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  );
-
   const renderSubject = (subj, index, pairIndex) => {
     const isEditing = editingIndex === `${pairIndex}-${index}`;
 
-    // Перевірка: чи ця пара показується на цьому тижні
     const shouldShow =
       (isNumeratorWeek && subj.numerator !== false) ||
       (!isNumeratorWeek && subj.denominator !== false);
@@ -290,7 +320,19 @@ const Schedule = () => {
       <header className="app-header">
         <h1>📅 Мій розклад</h1>
         <div className="header-controls">
-          <button className="search" onClick={() => navigate("/search")}>🔍 Пошук пар</button>
+          <div className="search-container">
+            <select value={searchType} onChange={(e) => setSearchType(e.target.value)}>
+              <option value="title">Предмет</option>
+              <option value="teacher">Викладач</option>
+              <option value="both">Предмет або викладач</option>
+            </select>
+            <input
+              type="text"
+              placeholder="🔍 Введіть запит..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
           <button
             className="week-toggle"
             onClick={() =>
@@ -303,6 +345,7 @@ const Schedule = () => {
       </header>
 
       <div className="day-switcher">
+        {/* Кнопки по днях будуть завжди відображені */}
         {Object.keys(weeklySchedule).map((day) => (
           <button
             key={day}
@@ -314,10 +357,11 @@ const Schedule = () => {
         ))}
       </div>
 
-      {weeklySchedule[selectedDay].length === 0 ? (
+      {/* Відображаємо фільтровані уроки вибраного дня */}
+      {lessonsForSelectedDay.length === 0 ? (
         <p style={{ textAlign: "center", color: "#777" }}>Пар немає</p>
       ) : (
-        weeklySchedule[selectedDay].map((lesson, pairIndex) => (
+        lessonsForSelectedDay.map((lesson, pairIndex) => (
           <div key={pairIndex} className="lesson-block">
             <div className="lesson-header">
               <span>{lesson.pair}</span>
@@ -336,6 +380,7 @@ const Schedule = () => {
 };
 
 export default Schedule;
+
 
 
 
